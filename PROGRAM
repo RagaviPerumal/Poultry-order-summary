@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farm Order Summary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4a5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 400px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+            color: rgb(128, 0, 0);
+        }
+        .form-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .form-group label {
+            width: 100px;
+            text-align: left;
+        }
+        .form-group input {
+            flex: 1;
+            text-align: center;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e3f2fd;
+            border-left: 5px solid #f32121b1;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Farm Order Summary</h2>
+        <div class="form-group">
+            <label for="legs">Legs:</label>
+            <input type="number" id="legs" />
+        </div>
+        <div class="form-group">
+            <label for="wings">Wings:</label>
+            <input type="number" id="wings" />
+        </div>
+        <div class="form-group">
+            <label for="flesh">Flesh (kg):</label>
+            <input type="number" id="flesh" />
+        </div>
+        <div class="button-container">
+            <button onclick="calculateOrder()">Calculate</button>
+        </div>
+        <div class="result" id="output"></div>
+    </div>
+
+    <script>
+        function calculateOrder() {
+            let legs = parseInt(document.getElementById('legs').value) || 0;
+            let wings = parseInt(document.getElementById('wings').value) || 0;
+            let flesh = parseFloat(document.getElementById('flesh').value) || 0;
+
+            const chickenLegs = 2;
+            const chickenWings = 2;
+            const chickenFlesh = 1.5; // Assuming 1.5 kg flesh per whole chicken
+            
+            let wholeChickens = Math.min(Math.floor(legs / chickenLegs), Math.floor(wings / chickenWings), Math.floor(flesh / chickenFlesh));
+            let remainingLegs = legs - (wholeChickens * chickenLegs);
+            let remainingWings = wings - (wholeChickens * chickenWings);
+            let remainingFlesh = flesh - (wholeChickens * chickenFlesh);
+
+            let output = `<p><strong>Total Weight of Order:</strong> ${flesh} kg</p>`;
+            output += `<p><strong>Whole Chickens Needed:</strong> ${wholeChickens}</p>`;
+            output += `<p><strong>Remaining Chicken Parts:</strong> ${remainingLegs} Legs, ${remainingWings} Wings, ${remainingFlesh.toFixed(2)} kg Flesh</p>`;
+            output += `<p><strong>Total Remaining Inventory Weight:</strong> ${remainingFlesh.toFixed(2)} kg</p>`;
+            
+            document.getElementById('output').innerHTML = output;
+        }
+    </script>
+</body>
+</html>
